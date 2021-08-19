@@ -70,20 +70,21 @@ impl GenericFeature<MultiPolygonFeature, Vec<PolygonType>> for MultiPolygonFeatu
     fn take_geometry_type(
         feature: &mut geojson::Feature,
     ) -> Result<Vec<PolygonType>, GeoJsonConversionError> {
-        if let geojson::Value::MultiPolygon(polygons) = feature
+        let value = feature
             .geometry
             .take()
             .ok_or_else(|| {
                 let id = feature.id.clone();
                 GeoJsonConversionError::MissingGeometry(id)
             })?
-            .value
-        {
-            Ok(polygons)
-        } else {
-            Err(GeoJsonConversionError::IncorrectGeometryValue(
+            .value;
+
+        match value {
+            geojson::Value::MultiPolygon(polygons) => Ok(polygons),
+            geojson::Value::Polygon(polygon) => Ok(vec![polygon]),
+            _ => Err(GeoJsonConversionError::IncorrectGeometryValue(
                 "Error: did not find a MultiPolygon feature".into(),
-            ))
+            )),
         }
     }
 
