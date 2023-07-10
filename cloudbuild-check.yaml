@@ -1,9 +1,6 @@
 steps:
   - id: Run tests
     name: rust:1.68
-    volumes:
-      - name: ssh
-        path: /root/.ssh
     entrypoint: cargo
     args:
       - test
