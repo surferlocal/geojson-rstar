@@ -20,7 +20,10 @@ use crate::{
     generic::{GenericFeature, GetBbox},
     json::JsonObject,
 };
-use geo::{bounding_rect::BoundingRect, euclidean_distance::EuclideanDistance};
+use geo::{
+    algorithm::{Distance, Euclidean},
+    bounding_rect::BoundingRect,
+};
 use geojson::{feature::Id, Bbox, PolygonType};
 use rstar::{Envelope, Point, PointDistance, RTreeObject, AABB};
 use std::convert::TryFrom;
@@ -150,6 +153,6 @@ impl PointDistance for MultiPolygonFeature {
         point: &<Self::Envelope as Envelope>::Point,
     ) -> <<Self::Envelope as Envelope>::Point as Point>::Scalar {
         let p: geo::Point<f64> = (*point).into();
-        self.geo_polygons().euclidean_distance(&p).powi(2)
+        Euclidean::distance(&self.geo_polygons(), &p).powi(2)
     }
 }

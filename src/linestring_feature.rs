@@ -20,7 +20,8 @@ use crate::{
     generic::{GenericFeature, GetBbox},
     json::JsonObject,
 };
-use geo::algorithm::{bounding_rect::BoundingRect, euclidean_length::EuclideanLength};
+use geo::algorithm::Euclidean;
+use geo::algorithm::{bounding_rect::BoundingRect, Length};
 use geojson::{feature::Id, Bbox, LineStringType};
 use num_traits::identities::Zero;
 use rstar::{Envelope, Point, PointDistance, RTreeObject, AABB};
@@ -92,7 +93,7 @@ impl GenericFeature<LineStringFeature, LineStringType> for LineStringFeature {
         geometry: &LineStringType,
         feature: &geojson::Feature,
     ) -> Result<(), GeoJsonConversionError> {
-        let euclidean_length: f64 = create_geo_line_string(&geometry).euclidean_length();
+        let euclidean_length: f64 = create_geo_line_string(&geometry).length::<Euclidean>();
         if (euclidean_length - f64::zero()).abs() < ::std::f64::EPSILON {
             let id = feature.id.clone();
             return Err(GeoJsonConversionError::MalformedGeometry(id));

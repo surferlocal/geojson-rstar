@@ -17,7 +17,7 @@ use crate::{
     generic::GenericFeature, json::JsonObject, LineStringFeature, MultiLineStringFeature,
     MultiPointFeature, MultiPolygonFeature, PointFeature, PolygonFeature,
 };
-use geo::{algorithm::bounding_rect::BoundingRect, Coordinate, Rect};
+use geo::{algorithm::bounding_rect::BoundingRect, Coord, Rect};
 use geojson::{feature::Id, Bbox, Geometry, Value};
 use std::convert::TryFrom;
 
@@ -145,8 +145,8 @@ fn convert_bounding_rect(geo_geometry_collection: geo::GeometryCollection<f64>) 
         .into_iter()
         .flat_map(|geo_geom| match geo_geom {
             geo::Geometry::Point(p) => vec![Rect::new(
-                Coordinate::from((p.x(), p.y())),
-                Coordinate::from((p.x(), p.y())),
+                Coord::from((p.x(), p.y())),
+                Coord::from((p.x(), p.y())),
             )],
             geo::Geometry::LineString(l) => {
                 vec![l.bounding_rect().expect("Expect a bounding rect")]

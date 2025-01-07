@@ -2,11 +2,11 @@
 name = "geojson-rstar"
 version = "0.1.0"
 authors = ["Boyd Johnson <johnson.boyd@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-geo = "^0.18"
-geojson = "^0.24"
-num-traits = "^0.2"
-rstar = "^0.8"
-serde_json = "~1.0"
+geo = "0.29.3"
+geojson = "0.24.1"
+num-traits = "0.2.19"
+rstar = "0.12.2"
+serde_json = "1.0.135"

@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use geo::{Coordinate, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon};
+use geo::{Coord, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon};
 use geojson::{Geometry, LineStringType, PointType, PolygonType, Value};
 use num_traits::Float;
 use std::fmt::Debug;
@@ -34,7 +34,7 @@ where
     T: Float + Debug,
 {
     line_string
-        .points_iter()
+        .points()
         .map(|point| create_point_type(&point))
         .collect()
 }
@@ -58,7 +58,7 @@ where
 {
     let mut coords = vec![polygon
         .exterior()
-        .points_iter()
+        .points()
         .map(|point| create_point_type(&point))
         .collect()];
 
@@ -84,11 +84,11 @@ where
 }
 
 #[allow(clippy::ptr_arg)]
-pub fn create_geo_coordinate<T>(point_type: &PointType) -> Coordinate<T>
+pub fn create_geo_coordinate<T>(point_type: &PointType) -> Coord<T>
 where
     T: Float + Debug,
 {
-    Coordinate {
+    Coord {
         x: T::from(point_type[0]).unwrap(),
         y: T::from(point_type[1]).unwrap(),
     }
