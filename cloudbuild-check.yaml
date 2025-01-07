@@ -1,6 +1,6 @@
 steps:
   - id: Run tests
-    name: rust:1.68
+    name: rust:1
     entrypoint: cargo
     args:
       - test
